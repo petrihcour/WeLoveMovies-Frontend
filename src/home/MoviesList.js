@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ErrorAlert from "../shared/ErrorAlert";
 import { listMovies } from "../utils/api";
+import "./MoviesList.css";
 
 function MoviesList() {
   const [movies, setMovies] = useState([]);
@@ -54,9 +55,8 @@ function MoviesList() {
       <hr />
       {loading ? (
         // Display loading indicator when data is being fetched
-        <div className="text-center mt-5">
-          <p>Loading...</p>
-          {/* You can customize the loading indicator as needed */}
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
         </div>
       ) : (
         // Render movie list when data is loaded
