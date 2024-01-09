@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ErrorAlert from "../shared/ErrorAlert";
 import { listMovies } from "../utils/api";
-import "./MoviesList.css";
+import "../MoviesList.css";
 
 function MoviesList() {
   const [movies, setMovies] = useState([]);
