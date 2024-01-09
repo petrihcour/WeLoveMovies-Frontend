@@ -5,12 +5,27 @@ import { listMovies } from "../utils/api";
 
 function MoviesList() {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loading state
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setError(null);
     const abortController = new AbortController();
-    listMovies(abortController.signal).then(setMovies).catch(setError);
+
+    // Set loading to true when starting to fetch data
+    setLoading(true);
+
+    listMovies(abortController.signal)
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        // Set loading to false when data is loaded or an error occurs
+        setLoading(false);
+      });
 
     return () => abortController.abort();
   }, []);
@@ -37,9 +52,19 @@ function MoviesList() {
       <ErrorAlert error={error} />
       <h2 className="font-poppins">Now Showing</h2>
       <hr />
-      <section className="row">{list}</section>
+      {loading ? (
+        // Display loading indicator when data is being fetched
+        <div className="text-center mt-5">
+          <p>Loading...</p>
+          {/* You can customize the loading indicator as needed */}
+        </div>
+      ) : (
+        // Render movie list when data is loaded
+        <section className="row">{list}</section>
+      )}
     </main>
   );
 }
 
 export default MoviesList;
+
